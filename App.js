@@ -104,7 +104,7 @@ export default function App() {
           >
             <Stack.Group>
               <Stack.Screen name='Login' component={Login} />
-              <Stack.Screen name='Registration' component={Register} />
+              <Stack.Screen name='Registration' component={Register} options={{headerBackVisible: false}} />
               <Stack.Screen
                 name='TabNav'
                 component={TabNav}

@@ -25,8 +25,9 @@ export default function Movie({ data, navigation }) {
         <View style={tw`w-4/5 flex items-center justify-center h-full`}>
           {data.Poster === 'N/A' ? (
             <View
-              style={tw`bg-green-100 w-full min-h-full flex items-center justify-center`}
+              style={tw`bg-blue-200 w-full min-h-full flex items-center justify-center`}
             >
+              <Text>Title: {data.Title}</Text>
               <Text>Image Not Available</Text>
             </View>
           ) : (

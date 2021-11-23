@@ -11,6 +11,7 @@ import {
 } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import rootReducer from '../reducers';
+import { moviesApi } from '../reducers/apiReducer';
 
 const persistConfig = {
   key: 'root',

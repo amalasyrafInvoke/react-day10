@@ -52,7 +52,7 @@ export default function About() {
       <FlatList
         data={ABOUTDATA}
         renderItem={({ item, index }) => (
-          <_renderFlatList item={item} index={index} />
+          <_renderFlatList item={item} key={index} />
         )}
         ListEmptyComponent={() => <_renderEmptyList />}
       />
