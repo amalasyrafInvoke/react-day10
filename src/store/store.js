@@ -17,6 +17,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage: AsyncStorage,
+  blacklist: ['cart']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -28,7 +29,7 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(moviesApi.middleware),
 });
 
 let persistor = persistStore(store);

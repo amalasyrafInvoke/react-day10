@@ -16,6 +16,7 @@ import MovieModal from './src/components/movieModal';
 import MovieSearch, { SearchButton } from './src/components/movieSearch';
 import About from './src/containers/about';
 import Contact from './src/containers/contact';
+import CartModal, { CartButton } from './src/components/cartButton';
 import Profile from './src/containers/profile';
 
 // Icon Import
@@ -29,7 +30,7 @@ import {
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const TabNav = ({navigation}) => {
+const TabNav = ({ navigation }) => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -71,6 +72,7 @@ const TabNav = ({navigation}) => {
             let iconName = focused ? 'contact-page' : 'contact-page';
             return <MaterialIcons name={iconName} size={24} color='white' />;
           },
+          headerRight: () => <CartButton navigation={navigation} />,
         }}
       />
       <Tab.Screen
@@ -104,7 +106,11 @@ export default function App() {
           >
             <Stack.Group>
               <Stack.Screen name='Login' component={Login} />
-              <Stack.Screen name='Registration' component={Register} options={{headerBackVisible: false}} />
+              <Stack.Screen
+                name='Registration'
+                component={Register}
+                options={{ headerBackVisible: false }}
+              />
               <Stack.Screen
                 name='TabNav'
                 component={TabNav}
@@ -126,6 +132,11 @@ export default function App() {
                 name='SearchModal'
                 options={{ headerShown: false }}
                 component={MovieSearch}
+              />
+              <Stack.Screen
+                name='CartModal'
+                options={{ headerShown: false }}
+                component={CartModal}
               />
             </Stack.Group>
           </Stack.Navigator>

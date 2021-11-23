@@ -51,6 +51,7 @@ export default function About() {
     <View style={tw`flex-1`}>
       <FlatList
         data={ABOUTDATA}
+        keyExtractor={(item, index) => index}
         renderItem={({ item, index }) => (
           <_renderFlatList item={item} key={index} />
         )}
