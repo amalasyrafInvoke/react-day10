@@ -17,7 +17,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage: AsyncStorage,
-  blacklist: ['cart']
+  blacklist: ['cart', 'count']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
