@@ -5,33 +5,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCount, minusCount } from '../../reducers/countReducer';
 import ContactList from '../../components/contactList';
-
-const CONTACTDATA = [
-  {
-    id: 1,
-    title: 'McDonalds',
-    contactNum: '1-300-888-000',
-    quantity: 0,
-  },
-  {
-    id: 2,
-    title: 'Dominos',
-    contactNum: '1-333-888-333',
-    quantity: 0,
-  },
-  {
-    id: 3,
-    title: 'KFC',
-    contactNum: '1-888-23-24',
-    quantity: 0,
-  },
-  {
-    id: 4,
-    title: 'Pizza Hut',
-    contactNum: '1-300-888-2525',
-    quantity: 0,
-  },
-];
+import CONTACTDATA from '../../resources/restaurants.json';
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -53,7 +27,7 @@ export default function Contact() {
 
   return (
     <View style={tw`flex-1`}>
-      <View style={tw`w-full h-40 flex items-center justify-center`}>
+      <View style={tw`w-full h-32 flex items-center justify-center`}>
         <Text>Count: {count}</Text>
         <View style={tw`flex flex-row items-center justify-center`}>
           <Pressable onPress={() => dispatch(addCount(2))}>

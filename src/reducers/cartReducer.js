@@ -27,6 +27,11 @@ export const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
+      state.lastUpdated = new Date().toString();
+    },
+    removeBySwiping: (state, action) => {
+      state.items = action.payload;
+      state.lastUpdated = new Date().toString();
     },
     addQuantity: (state, action) => {
       const targetedItem = state.items.find(
@@ -64,5 +69,6 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, addQuantity, minusQuantity } = cartSlice.actions;
+export const { addToCart, removeFromCart, removeBySwiping, addQuantity, minusQuantity } =
+  cartSlice.actions;
 export default cartSlice.reducer;

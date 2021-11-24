@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useRef } from 'react';
 import {
   Pressable,
   View,
@@ -11,43 +11,54 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import tw from 'twrnc';
 import { Fontisto } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart } from '../../reducers/cartReducer';
+import { removeFromCart, removeBySwiping } from '../../reducers/cartReducer';
 import CartCard from '../cartCard';
 
 const rowTranslateAnimatedValues = {};
 
 export default function CartModal({ navigation }) {
   const dispatch = useDispatch();
+  const animationIsRunning = useRef(false);
   const cartItems = useSelector((state) => state.cart.items);
   const lastUpdated = useSelector((state) => state.cart.lastUpdated);
 
-  useEffect(() => {
-    let test = new Array(cartItems.length).fill('').forEach((_, i) => {
-      rowTranslateAnimatedValues[`${i}`] = new Animated.Value(1);
-    });
-    console.log(cartItems.length);
-  }, [cartItems]);
+  new Array(cartItems.length).fill('').forEach((_, i) => {
+    rowTranslateAnimatedValues[i] = new Animated.Value(50);
+  });
+  // console.log(rowTranslateAnimatedValues);
 
   const onSwipeValueChange = (swipeData) => {
+    // console.log(-Dimensions.get('window').width);
+    // console.log(swipeData);
     const { key, value } = swipeData;
-    if (value < -Dimensions.get('window').width && !this.animationIsRunning) {
-      this.animationIsRunning = true;
+    // console.log(key);
+    // console.log(value);
+    // console.log(animationIsRunning.current);
+    if (
+      value < -Dimensions.get('window').width + 50 &&
+      !animationIsRunning.current
+    ) {
+      console.log(animationIsRunning.current);
+
+      animationIsRunning.current = true;
       Animated.timing(rowTranslateAnimatedValues[key], {
         toValue: 0,
         duration: 200,
+        useNativeDriver: false,
       }).start(() => {
         const newData = [...cartItems];
-        const prevIndex = cartItems.findIndex((item) => item.key === key);
+        const prevIndex = cartItems.findIndex((item, index) => index === key);
         newData.splice(prevIndex, 1);
-        setListData(newData);
-        this.animationIsRunning = false;
+        dispatch(removeBySwiping(newData));
+        animationIsRunning.current = false;
+
       });
     }
   };
 
   return (
     <View style={tw`bg-blue-900 flex-1`}>
-      <View style={tw`flex items-center justify-center min-h-full w-full`}>
+      <View style={tw`flex items-center justify-center min-h-full w-full h-full`}>
         <Image
           source={require('../../../assets/logo3.png')}
           style={tw`my-12 h-[60px] w-[60px] opacity-70`}
@@ -69,10 +80,11 @@ export default function CartModal({ navigation }) {
           disableRightSwipe
           contentContainerStyle={tw`min-h-screen`}
           data={cartItems}
-          useNativeDriver={false}
           onSwipeValueChange={onSwipeValueChange}
           keyExtractor={(item, index) => index}
-          renderItem={({ item, rowMap }) => <CartCard data={item} />}
+          renderItem={({ item, rowMap }) => (
+            <CartCard data={item} rowAnimate={rowTranslateAnimatedValues} />
+          )}
           renderHiddenItem={(item, rowMap) => {
             return (
               <View
@@ -88,7 +100,6 @@ export default function CartModal({ navigation }) {
               </View>
             );
           }}
-          leftOpenValue={75}
           rightOpenValue={-75}
         />
       </View>
